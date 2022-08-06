@@ -1,0 +1,24 @@
+{
+  "name": "jq-terminal",
+  "version": "3.0.0",
+  "description": "Next modern version of jQuery Terminal without jQuery dependency rewritten in TypeScript",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcubic/jQTerminal.git"
+  },
+  "keywords": [],
+  "author": "Jakub T. Jankiewicz <jcubic@onet.pl> (https://jcubic.pl/me/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jcubic/jQTerminal/issues"
+  },
+  "homepage": "https://github.com/jcubic/jQTerminal#readme",
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "cash-dom": "^8.1.1"
+  }
+}
