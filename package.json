@@ -4,6 +4,7 @@
   "description": "Next modern version of jQuery Terminal without jQuery dependency rewritten in TypeScript",
   "main": "index.js",
   "scripts": {
+      "version": "node -p \"'const VERSION = \\'v. ' + require('./package.json').version + '\\';\\n\\nexport default VERSION;'\" > src/version.ts",
       "ts": "./node_modules/typescript/bin/tsc"
   },
   "repository": {
