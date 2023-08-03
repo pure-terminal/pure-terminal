@@ -3,6 +3,8 @@
        alt="ASCII Art that represents text Pure Terminal - JavaScript Library for Web Based Terminal Emulators" />
 </h1>
 
+![Build Status](https://github.com/pure-terminal/pure-terminal/actions/workflows/build.yaml/badge.svg?branch=master)
+
 Pure Terminal, the Next version of jQuery Terminal without jQuery dependency rewritten in TypeScript
 
 [JavaScript Library for Web-Based Terminal Emulators](https://terminal.jcubic.pl)
