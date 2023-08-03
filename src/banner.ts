@@ -64,7 +64,7 @@ export const banner = (cols: number) => {
         }
     });
     if (banner) {
-        let [len, output] = banner;
+        const [len, output] = banner;
         const copy = copyrights.find(([copy_len]) => {
             if (copy_len <= len) {
                 return true;

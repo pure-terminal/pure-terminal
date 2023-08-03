@@ -119,7 +119,7 @@ function is_path(url: string) {
         !(url.match(/\//) || url.match(/^[^:]+:/));
 }
 
-var strlen = (function() {
+const strlen = (function() {
     if (typeof wcwidth === 'undefined') {
         return function(string: string) {
             // fix empty prompt that use 0 width space
@@ -142,7 +142,7 @@ function char_width_prop(len: number, options?: CharWidthOptionT) {
 }
 
 function char_width_object(len: number, options?: CharWidthOptionT) {
-    var result: StringObjectT = {};
+    const result: StringObjectT = {};
     if (len === 0) {
         result['width'] = '1px';
     } else if (is_ch_unit_supported) {
@@ -159,8 +159,8 @@ function char_width_object(len: number, options?: CharWidthOptionT) {
 
 function extra_css(text: string, options: CharWidthOptionT) {
     if (typeof wcwidth !== 'undefined') {
-        var bare = bare_text(text);
-        var len = strlen(bare);
+        const bare = bare_text(text);
+        const len = strlen(bare);
         if (len > 1 && len !== length(bare)) {
             return char_width_object(len, options);
         }
@@ -169,18 +169,18 @@ function extra_css(text: string, options: CharWidthOptionT) {
 
 function wide_characters(text: string, options: CharWidthOptionT) {
     if (typeof wcwidth !== 'undefined') {
-        var bare = bare_text(text);
-        var chars = split_characters(bare);
+        const bare = bare_text(text);
+        const chars = split_characters(bare);
         if (chars.length === 1) {
             return text;
         }
-        var specs = chars.map(function(chr: string) {
+        const specs = chars.map(function(chr: string) {
             return {
                 len: strlen(chr),
                 chr: chr
             };
         }).reduce(function(arr: Array<WideCharactersT>, spec: CharSpecT) {
-            var last = arr[arr.length - 1];
+            const last = arr[arr.length - 1];
             if (last) {
                 if (last.len !== spec.len) {
                     return arr.concat([{
@@ -207,7 +207,7 @@ function wide_characters(text: string, options: CharWidthOptionT) {
             if (spec.len === 1) {
                 return make_string(spec);
             }
-            var style = char_width_prop(spec.sum, options);
+            const style = char_width_prop(spec.sum, options);
             if (spec.sum === chars.length || !style.length) {
                 return '<span>' + make_string(spec) + '</span>';
             } else if (spec.specs.length > 1) {
@@ -241,12 +241,12 @@ export function format(str: string, options: FormatOptionT) {
     }, options || {});
 
     function rel_attr() {
-        var rel = ["noopener"];
+        const rel = ['noopener'];
         if (settings.linksNoReferrer) {
-            rel.unshift("noreferrer");
+            rel.unshift('noreferrer');
         }
         if (settings.linksNoFollow) {
-            rel.unshift("nofollow");
+            rel.unshift('nofollow');
         }
         return rel;
     }
@@ -257,7 +257,7 @@ export function format(str: string, options: FormatOptionT) {
             if (settings.anyLinks) {
                 return true;
             }
-            var test = fn(url);
+            const test = fn(url);
             if (!test) {
                 warn('Invalid URL ' + url + ' only http(s) ftp and Path ' +
                      'are allowed');
@@ -266,17 +266,17 @@ export function format(str: string, options: FormatOptionT) {
         };
     }
     // -----------------------------------------------------------------
-    var valid_href = with_url_validation(function(url) {
+    const valid_href = with_url_validation(function(url) {
         return !!(url.match(/^((https?|file|ftp):\/\/|\.{0,2}\/)/) || is_path(url));
     });
     // -----------------------------------------------------------------
-    var valid_src = with_url_validation(function(url) {
+    const valid_src = with_url_validation(function(url) {
         return !!(url.match(/^(https?:|file:|blob:|data:)/) || is_path(url));
     });
     // -----------------------------------------------------------------
     function format(s: string, style: string, color: string, background: string, _class: string, data_text: string, text: string) {
         function pre_process_link(data: string) {
-            var result;
+            let result;
             if (data.match(email_re)) {
                 result = '<a href="mailto:' + data + '"';
             } else {
@@ -306,8 +306,8 @@ export function format(str: string, options: FormatOptionT) {
         let attrs;
         if (data_text.match(/;/)) {
             try {
-                var splitted = data_text.split(';');
-                var str = splitted.slice(1).join(';')
+                const splitted = data_text.split(';');
+                const str = splitted.slice(1).join(';')
                     .replace(/&nbsp;/g, ' ')
                     .replace(/&lt;/g, '<')
                     .replace(/&gt;/g, '>');
@@ -316,6 +316,7 @@ export function format(str: string, options: FormatOptionT) {
                     data_text = splitted[0];
                 }
             } catch (e) {
+                // ignore
             }
         }
         if (text === '' && !style.match(/@/)) {
@@ -328,11 +329,11 @@ export function format(str: string, options: FormatOptionT) {
             // but this escape is not needed when echo - don't know why
             text = text.replace(/\\\\/g, '\\');
         }
-        var styles: StringObjectT = {};
+        const styles: StringObjectT = {};
         if (style.indexOf('b') !== -1) {
             styles['font-weight'] = 'bold';
         }
-        var text_decoration = [];
+        const text_decoration = [];
         if (style.indexOf('u') !== -1) {
             text_decoration.push('underline');
         }
@@ -367,13 +368,13 @@ export function format(str: string, options: FormatOptionT) {
                 '--background': background
             });
         }
-        var data = clean_data(data_text, text);
-        var extra = extra_css(text, settings);
+        const data = clean_data(data_text, text);
+        const extra = extra_css(text, settings);
         if (extra) {
             text = wide_characters(text, settings);
             $.extend(styles, extra);
         }
-        var result;
+        let result;
         if (style.indexOf('!') !== -1) {
             result = pre_process_link(data);
         } else if (style.indexOf('@') !== -1) {
@@ -381,7 +382,7 @@ export function format(str: string, options: FormatOptionT) {
         } else {
             result = '<span';
         }
-        var style_str = style_to_string(styles);
+        const style_str = style_to_string(styles);
         result += attrs_to_string(style_str, attrs, settings.allowedAttributes);
         if (_class !== '') {
             result += ' class="' + _class + '"';
@@ -400,7 +401,7 @@ export function format(str: string, options: FormatOptionT) {
     }
     if (typeof str === 'string') {
         // support for formating foo[[u;;]bar]baz[[b;#fff;]quux]zzz
-        var splitted = format_split(str);
+        const splitted = format_split(str);
         str = splitted.map(function(text: string) {
             if (text === '') {
                 return text;
@@ -414,9 +415,9 @@ export function format(str: string, options: FormatOptionT) {
             } else {
                 text = safe(text);
                 text = text.replace(/\\\]/, '&#93;');
-                var data = clean_data(text);
-                var extra = extra_css(text, settings);
-                var prefix;
+                const data = clean_data(text);
+                const extra = extra_css(text, settings);
+                let prefix;
                 if (extra) {
                     text = wide_characters(text, settings);
                     prefix = '<span style="' + style_to_string(extra) + '"';

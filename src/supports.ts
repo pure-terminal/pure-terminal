@@ -11,7 +11,7 @@ export const is_ch_unit_supported = (function() {
     if (typeof document === 'undefined') {
         return true; // run without browser context
     }
-    var div = document.createElement('div');
+    const div = document.createElement('div');
     div.style.width = '1ch';
     return div.style.width === '1ch';
 })();
@@ -34,7 +34,7 @@ export const is_key_native = (function is_key_native() {
 export const is_browser = globalThis.window === globalThis;
 
 export const is_mobile = (function(a) {
-    var check = false;
+    let check = false;
     if (mobile_re.test(a) || tablet_re.test(a.substr(0, 4))) {
         check = true;
     }

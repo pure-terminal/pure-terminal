@@ -55,10 +55,10 @@ export function length(string: string, raw: boolean = false) {
 }
 
 export function split_characters(string: string) {
-    var result = [];
-    var get_next_character = make_next_char_fun(string);
+    const result = [];
+    const get_next_character = make_next_char_fun(string);
     while (string.length) {
-        var chr = get_next_character(string);
+        const chr = get_next_character(string);
         string = string.slice(chr.length);
         result.push(chr);
     }
@@ -67,7 +67,7 @@ export function split_characters(string: string) {
 
 function make_re_fn(re: RegExp) {
     return function(string: string) {
-        var m = string.match(re);
+        const m = string.match(re);
         if (starts_with(m)) {
             return m[1];
         }
@@ -85,7 +85,7 @@ function starts_with(match: MatchResultT): match is NonNullable<MatchResultT> {
 // :: not optimized function
 // -------------------------------------------------------------------------
 function make_next_char_fun(string: string) {
-    var tests: Array<(arg: string) => string | void> = [];
+    const tests: Array<(arg: string) => string | void> = [];
     [
         entity_re,
         emoji_re,
@@ -97,9 +97,9 @@ function make_next_char_fun(string: string) {
     });
     if (string.match(astral_symbols_re)) {
         tests.push(function(string: string) {
-            var m1 = string.match(astral_symbols_re);
+            const m1 = string.match(astral_symbols_re);
             if (starts_with(m1)) {
-                var m2 = string.match(combine_chr_re);
+                const m2 = string.match(combine_chr_re);
                 if (m2 && m2.index === 1) {
                     return string.slice(0, 3);
                 }
@@ -108,9 +108,9 @@ function make_next_char_fun(string: string) {
         });
     }
     return function(string: string) {
-        for (var i = 0; i < tests.length; ++i) {
-            var test = tests[i];
-            var ret = test(string);
+        for (let i = 0; i < tests.length; ++i) {
+            const test = tests[i];
+            const ret = test(string);
             if (ret) {
                 return ret;
             }
@@ -123,21 +123,21 @@ function make_next_char_fun(string: string) {
 // :: counting emoji, suroggate pairs and combine characters
 // -------------------------------------------------------------------------
 export function get_next_character(string: string) {
-    var match_entity = string.match(entity_re);
+    const match_entity = string.match(entity_re);
     if (starts_with(match_entity)) {
         return match_entity[1];
     }
-    var match_combo = string.match(combine_chr_re);
+    let match_combo = string.match(combine_chr_re);
     if (starts_with(match_combo)) {
         return match_combo[1];
     }
-    var match_emoji = string.match(emoji_re);
+    const match_emoji = string.match(emoji_re);
     if (starts_with(match_emoji)) {
         return match_emoji[1];
     } else if (string.charCodeAt(0) < 255) {
         return string[0];
     } else {
-        var astral_match = string.match(astral_symbols_re);
+        const astral_match = string.match(astral_symbols_re);
         if (starts_with(astral_match)) {
             match_combo = string.match(combine_chr_re);
             if (match_combo && match_combo.index === 1) {

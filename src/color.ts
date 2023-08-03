@@ -33,7 +33,7 @@ const color_names = [
     'seagreen', 'seashell', 'sienna', 'silver', 'skyblue', 'slateblue',
     'slategray', 'slategrey', 'snow', 'springgreen', 'steelblue', 'tan',
     'teal', 'thistle', 'tomato', 'turquoise', 'violet', 'wheat',
-    'white', 'whitesmoke', 'yellow', 'yellowgreen', 'rebeccapurple']
+    'white', 'whitesmoke', 'yellow', 'yellowgreen', 'rebeccapurple'];
 
 export function valid_color(color: string) {
     if (color.match(color_re)) {
