@@ -8,9 +8,9 @@ import {
     emoji_re,
     combine_chr_re,
     astral_symbols_re
-} from './const';
+} from '../const';
 
-import { text } from './sanitize';
+import { text } from '../sanitize';
 
 type MatchResultT = ReturnType<typeof String.prototype.match>;
 
@@ -149,3 +149,52 @@ export function get_next_character(string: string) {
         }
     }
 }
+
+export function parse_formatting(string: string) {
+    var formatting = unescape_brackets(string).split(';');
+    var text_part = 4;
+    if (formatting.length >= 5) {
+        var escaped = escape_brackets(formatting[text_part]);
+        formatting[text_part] = escaped;
+    }
+    return formatting;
+}
+
+export function unescape_brackets(string: string) {
+    return string.replace(/&#91;/g, '[')
+        .replace(/&#93;/g, ']')
+        .replace(/&#92;/g, '\\');
+}
+
+export function escape_brackets(string: string) {
+    return string.replace(/\[/g, '&#91;')
+        .replace(/\]/g, '&#93;')
+        .replace(/\\/g, '&#92;');
+}
+
+type FormatterFunctionOptions = {
+    echo: boolean;
+    animation: boolean;
+    prompt: boolean;
+    command: boolean;
+    position: number;
+};
+
+export type FormatterRegExpFunction = (...args: string[]) => string;
+type FormaterRegExpReplacement = string | FormatterRegExpFunction;
+
+export interface FormatterFunction {
+    (str: string, options?: FormatterFunctionOptions): (string | [string, number]);
+    __inherit__: boolean;
+    __warn__: boolean;
+    __meta__: boolean;
+}
+type FormatterArrayOptions = {
+    loop?: boolean;
+    echo?: boolean;
+    animation?: boolean;
+    command?: boolean;
+    prompt?: boolean;
+};
+
+export type Formatter = [RegExp, FormaterRegExpReplacement] | [RegExp, FormaterRegExpReplacement, FormatterArrayOptions] | FormatterFunction;
