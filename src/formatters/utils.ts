@@ -151,10 +151,10 @@ export function get_next_character(string: string) {
 }
 
 export function parse_formatting(string: string) {
-    var formatting = unescape_brackets(string).split(';');
-    var text_part = 4;
+    const formatting = unescape_brackets(string).split(';');
+    const text_part = 4;
     if (formatting.length >= 5) {
-        var escaped = escape_brackets(formatting[text_part]);
+        const escaped = escape_brackets(formatting[text_part]);
         formatting[text_part] = escaped;
     }
     return formatting;

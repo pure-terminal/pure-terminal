@@ -1,4 +1,4 @@
-import { strip } from './formatting';
+import { strip } from './formatters/utils';
 
 // -------------------------------------------------------------------------
 // entiteis are case sensitive

@@ -7,7 +7,7 @@ import wcwidth from 'wcwidth';
 import { bare_text } from './sanitize';
 import { email_re, format_parts_re } from './const';
 import { valid_color } from './color';
-import { format_split, is_formatting, length, split_characters } from './formatting';
+import { format_split, is_formatting, length, split_characters } from './formatters/utils';
 import { is_ch_unit_supported, is_css_variables_supported } from './supports';
 import { warn } from './debug';
 

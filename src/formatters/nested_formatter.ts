@@ -39,11 +39,11 @@ const format_split_re = /^\[\[([^;]*);([^;]*);([^\]]*)\]/;
 function parse_style(string: string) {
     const style: StyleT = {};
     string.split(/\s*;\s*/).forEach(function(string) {
-        var parts = string.split(':').map(function(string) {
+        const parts = string.split(':').map(function(string) {
             return string.trim();
         });
-        var prop = parts[0];
-        var value = parts[1];
+        const prop = parts[0];
+        const value = parts[1];
         style[prop] = value;
     });
     return style;
@@ -62,7 +62,7 @@ function unique(value: string, index: number, self: Array<string>) {
 }
 
 function stringify_formatting(input: FormatingT) {
-    var result = input.slice();
+    const result = input.slice();
     if (input[attrs_i]) {
         result[attrs_i] = stringify_attrs(input[attrs_i]);
     }
@@ -75,7 +75,7 @@ function stringify_formatting(input: FormatingT) {
 
 // ---------------------------------------------------------------------------
 function stringify_styles(input: Array<string>) {
-    var ignore = input.filter(function(s) {
+    const ignore = input.filter(function(s) {
         return s[0] === '-';
     }).map(function(s: string) {
         return s[1];
@@ -111,10 +111,10 @@ function get_inherit_style(stack: StackT) {
             output[attrs_i] = {};
         }
         try {
-            var new_attrs = JSON.parse(value);
+            const new_attrs = JSON.parse(value);
             if (new_attrs.style) {
-                var new_style = new_attrs.style;
-                var old_style = output[attrs_i].style;
+                const new_style = new_attrs.style;
+                const old_style = output[attrs_i].style;
                 output[attrs_i] = {
                     ...new_attrs,
                     ...output[attrs_i],
@@ -136,26 +136,26 @@ function get_inherit_style(stack: StackT) {
     if (!stack.length) {
         return output;
     }
-    for (var i = stack.length; i--;) {
-        var formatting = parse_formatting(stack[i]);
+    for (let i = stack.length; i--;) {
+        let formatting = parse_formatting(stack[i]);
         if (formatting.length > 5) {
-            var last = formatting.slice(5).join(';');
+            const last = formatting.slice(5).join(';');
             formatting = formatting.slice(0, 5).concat(last);
         }
-        var style = formatting[0].split(/(-?[@!gbiuso])/g).filter(Boolean);
+        const style = formatting[0].split(/(-?[@!gbiuso])/g).filter(Boolean);
         style.forEach(function(s) {
             if (is_valid_effect(s) && output[0].indexOf(s) === -1) {
                 output[0].push(s);
             }
         });
-        for (var j = 1; j < formatting.length; ++j) {
-            var value = formatting[j].trim();
+        for (let j = 1; j < formatting.length; ++j) {
+            const value = formatting[j].trim();
             if (value) {
                 if (j === class_i) {
                     if (!output[class_i]) {
                         output[class_i] = [];
                     }
-                    var classes = value.split(/\s+/);
+                    const classes = value.split(/\s+/);
                     output[class_i] = output[class_i].concat(classes);
                 } else if (j === attrs_i) {
                     update_attrs(value);
@@ -175,9 +175,9 @@ const nested_formatter = <FormatterFunction>function(string) {
     const stack: StackT = [];
 
     return string.split(re).filter(Boolean).map(function(string) {
-        var style;
+        let style;
         if (string.match(/^\[\[/) && !is_extended_command(string)) {
-            var formatting = string.replace(format_re, '$1');
+            const formatting = string.replace(format_re, '$1');
             string = string.replace(format_split_re, '');
             stack.push(formatting);
             if (nested_formatter.__inherit__) {
@@ -192,7 +192,7 @@ const nested_formatter = <FormatterFunction>function(string) {
             }
             string = '[[' + style + ']' + string;
         } else {
-            var pop = false;
+            let pop = false;
             if (string.match(/\]/)) {
                 pop = true;
             }
@@ -212,6 +212,6 @@ const nested_formatter = <FormatterFunction>function(string) {
         }
         return string;
     }).join('');
-}
+};
 
 export default nested_formatter;
