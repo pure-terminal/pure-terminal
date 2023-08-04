@@ -1,6 +1,6 @@
 {
-  "name": "jq-terminal",
-  "version": "3.0.0",
+  "name": "pure-terminal",
+  "version": "3.0.0-alpha.0",
   "description": "Next modern version of jQuery Terminal without jQuery dependency rewritten in TypeScript",
   "main": "index.js",
   "scripts": {
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jcubic/jQTerminal.git"
+    "url": "git+https://github.com/pure-terminal/pure-terminal.git"
   },
   "keywords": [],
   "author": "Jakub T. Jankiewicz <jcubic@onet.pl> (https://jcubic.pl/me/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jcubic/jQTerminal/issues"
+    "url": "https://github.com/pure-terminal/pure-terminal/issues"
   },
-  "homepage": "https://github.com/jcubic/jQTerminal#readme",
+  "homepage": "https://github.com/pure-terminal/pure-terminal#readme",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",

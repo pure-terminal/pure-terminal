@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://github.com/jcubic/jQTerminal/blob/master/assets/ascii_art.svg?raw=true&ver=3.0.0"
+  <img src="https://github.com/pure-terminal/pure-terminal/blob/master/assets/ascii_art.svg?raw=true&ver=3.0.0"
        alt="ASCII Art that represents text Pure Terminal - JavaScript Library for Web Based Terminal Emulators" />
 </h1>
 
