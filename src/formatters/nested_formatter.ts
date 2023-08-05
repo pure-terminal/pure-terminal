@@ -6,28 +6,28 @@ import {
     type FormatterFunction
 } from './utils';
 
-type EffectT = 'g' | 'b' | 'i' | 'u' | 's' | 'o';
-type NotEffect = `-${EffectT}`;
-type ItemT = '!' | '@';
-type EffectsT = Array<EffectT | NotEffect | ItemT>;
-type StackT = Array<string>;
+type Effect = 'g' | 'b' | 'i' | 'u' | 's' | 'o';
+type NotEffect = `-${Effect}`;
+type Item = '!' | '@';
+type Effects = Array<Effect | NotEffect | Item>;
+type Stack = Array<string>;
 
-function is_valid_effect(string: string): string is EffectT | NotEffect | ItemT {
+function is_valid_effect(string: string): string is Effect | NotEffect | Item {
     return !!string.match(/^[@!]|-?[gbiuso]$/);
 }
 
 // [style_effect, color, background, classes, full_text, attrs_json]
-type FormatingT = [
-    EffectsT,
+type Formating = [
+    Effects,
     string,
     string,
     Array<string> | undefined,
     string | undefined,
-    AttrsT | undefined
+    Attrs | undefined
 ];
 
-type StyleT = {[key: string]: string};
-type AttrsT = {[key: string]: string} & {style?: StyleT};
+type Style = {[key: string]: string};
+type Attrs = {[key: string]: string} & {style?: Style};
 
 const class_i = 3; // index of the class in formatting
 const attrs_i = 5; // index of attributes in formattings
@@ -37,7 +37,7 @@ const format_re = /\[\[([^\][]+)\][\s\S]*/;
 const format_split_re = /^\[\[([^;]*);([^;]*);([^\]]*)\]/;
 
 function parse_style(string: string) {
-    const style: StyleT = {};
+    const style: Style = {};
     string.split(/\s*;\s*/).forEach(function(string) {
         const parts = string.split(':').map(function(string) {
             return string.trim();
@@ -49,7 +49,7 @@ function parse_style(string: string) {
     return style;
 }
 
-function update_style(style_string: string, old_style?: StyleT) {
+function update_style(style_string: string, old_style?: Style) {
     const new_style = parse_style(style_string);
     if (!old_style) {
         return new_style;
@@ -61,7 +61,7 @@ function unique(value: string, index: number, self: Array<string>) {
     return self.indexOf(value) === index;
 }
 
-function stringify_formatting(input: FormatingT) {
+function stringify_formatting(input: Formating) {
     const result = input.slice();
     if (input[attrs_i]) {
         result[attrs_i] = stringify_attrs(input[attrs_i]);
@@ -85,7 +85,7 @@ function stringify_styles(input: Array<string>) {
     }).join('');
 }
 // ---------------------------------------------------------------------------
-function stringify_attrs(attrs: AttrsT) {
+function stringify_attrs(attrs: Attrs) {
     return JSON.stringify(attrs, function(key, value) {
         if (key === 'style') {
             return stringify_style(value);
@@ -98,14 +98,14 @@ function stringify_class(klass: Array<string>) {
     return klass.filter(unique).join(' ');
 }
 
-function stringify_style(style: StyleT) {
+function stringify_style(style: Style) {
     return Object.keys(style).map(function(prop) {
         return prop + ':' + style[prop];
     }).join(';');
 }
 
-function get_inherit_style(stack: StackT) {
-    const output: FormatingT = [[], '', '', undefined, undefined, undefined];
+function get_inherit_style(stack: Stack) {
+    const output: Formating = [[], '', '', undefined, undefined, undefined];
     function update_attrs(value: string) {
         if (!output[attrs_i]) {
             output[attrs_i] = {};
@@ -172,7 +172,7 @@ const nested_formatter = <FormatterFunction>function(string) {
     if (!have_formatting(string)) {
         return string;
     }
-    const stack: StackT = [];
+    const stack: Stack = [];
 
     return string.split(re).filter(Boolean).map(function(string) {
         let style;

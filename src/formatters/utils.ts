@@ -186,7 +186,7 @@ type FormaterRegExpReplacement = string | FormatterRegExpFunction;
 export interface FormatterFunction {
     (str: string, options?: FormatterFunctionOptions): (string | [string, number]);
     __inherit__: boolean;
-    __warn__: boolean;
+    __no_warn__: boolean;
     __meta__: boolean;
 }
 type FormatterArrayOptions = {
