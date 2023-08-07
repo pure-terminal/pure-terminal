@@ -5,6 +5,7 @@ import {
     parse_formatting,
     type FormatterFunction
 } from './utils';
+import { warn } from '../debug';
 
 type Effect = 'g' | 'b' | 'i' | 'u' | 's' | 'o';
 type NotEffect = `-${Effect}`;
@@ -129,7 +130,7 @@ function get_inherit_style(stack: Stack) {
                 };
             }
         } catch (e) {
-            //warn('Invalid JSON ' + value);
+            warn('Invalid JSON ' + value);
         }
     }
 
