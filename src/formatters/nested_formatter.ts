@@ -71,7 +71,7 @@ function stringify_formatting(input: Formating) {
         result[class_i] = stringify_class(input[class_i]);
     }
     result[0] = stringify_styles(input[0]);
-    return result.join(';');
+    return result.filter(str => str !== undefined).join(';');
 }
 
 // ---------------------------------------------------------------------------
@@ -214,5 +214,12 @@ const nested_formatter = <FormatterFunction>function(string) {
         return string;
     }).join('');
 };
+// if set to false nested formatting will not process formatting, only text
+// between formatting, we need this option because we're flattening the formatting
+nested_formatter.__meta__ = true;
+// if set to false nested formatting will not inherit styles colors and attribues
+nested_formatter.__inherit__ = true;
+// nested formatting will always return different length so we silent the warning
+nested_formatter.__no_warn__ = true;
 
 export default nested_formatter;
