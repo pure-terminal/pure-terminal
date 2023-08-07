@@ -1,7 +1,7 @@
 const warnings: Array<string> = [];
 
 export function warn(msg: string) {
-    msg = '[jQuery Terminal] ' + msg;
+    msg = '[Pure Terminal] ' + msg;
     if (warnings.indexOf(msg) === -1) {
         warnings.push(msg);
         /* eslint-disable */
