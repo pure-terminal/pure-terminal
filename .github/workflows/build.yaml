@@ -16,3 +16,4 @@ jobs:
           cmd: install
       - run: yarn lint
       - run: yarn ts
+      - run: yarn test

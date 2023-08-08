@@ -179,6 +179,7 @@ const nested_formatter = <FormatterFunction>function(string) {
         let style;
         if (string.match(/^\[\[/) && !is_extended_command(string)) {
             const formatting = string.replace(format_re, '$1');
+            const has_formatting = is_formatting(string);
             string = string.replace(format_split_re, '');
             stack.push(formatting);
             if (nested_formatter.__inherit__) {
@@ -186,7 +187,7 @@ const nested_formatter = <FormatterFunction>function(string) {
             } else {
                 style = formatting;
             }
-            if (!is_formatting(string)) {
+            if (!has_formatting) {
                 string += ']';
             } else {
                 stack.pop();
