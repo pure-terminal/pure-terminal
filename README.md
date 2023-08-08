@@ -5,7 +5,7 @@
 
 [![NPM package](https://img.shields.io/badge/npm-3.0.0-blue.svg)](https://www.npmjs.com/package/pure-terminal)
 ![Build Status](https://github.com/pure-terminal/pure-terminal/actions/workflows/build.yaml/badge.svg?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/pure-terminal/pure-terminal/badge.svg?branch=master&75da0f6ae07388cf17379f7dcd13e04f)](https://coveralls.io/github/pure-terminal/pure-terminal?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/pure-terminal/pure-terminal/badge.svg?branch=master)](https://coveralls.io/github/pure-terminal/pure-terminal?branch=master)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/pure-terminal/pure-terminal/blob/master/LICENSE)
 
 Pure Terminal, the Next version of jQuery Terminal without jQuery dependency rewritten in TypeScript
