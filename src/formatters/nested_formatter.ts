@@ -17,14 +17,13 @@ function is_valid_effect(string: string): string is Effect | NotEffect | Item {
     return !!string.match(/^[@!]|-?[gbiuso]$/);
 }
 
-// [style_effect, color, background, classes, full_text, attrs_json]
 type Formating = [
-    Effects,
-    string,
-    string,
-    Array<string>?,
-    string?,
-    Attrs?
+    effect: Effects,
+    color: string,
+    background: string,
+    classes?: Array<string>,
+    full_text?: string,
+    attrs?: Attrs
 ];
 
 type Style = {[key: string]: string};
