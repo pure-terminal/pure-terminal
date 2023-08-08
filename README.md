@@ -4,6 +4,8 @@
 </h1>
 
 ![Build Status](https://github.com/pure-terminal/pure-terminal/actions/workflows/build.yaml/badge.svg?branch=master)
+[![NPM package](https://img.shields.io/badge/npm-3.0.0-blue.svg)](https://www.npmjs.com/package/pure-terminal)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/pure-terminal/pure-terminal/blob/master/LICENSE)
 
 Pure Terminal, the Next version of jQuery Terminal without jQuery dependency rewritten in TypeScript
 
