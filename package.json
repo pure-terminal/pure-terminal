@@ -6,7 +6,8 @@
   "scripts": {
     "version": "node -p \"'const VERSION = \\'v. ' + require('./package.json').version + '\\';\\n\\nexport default VERSION;'\" > src/version.ts",
     "ts": "tsc",
-    "test": "jest",
+    "test": "jest --coverage",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "lint": "eslint . --ext .ts"
   },
   "repository": {
