@@ -31,6 +31,7 @@ type Style = {[key: string]: string};
 type Attrs = {[key: string]: string} & {style?: Style};
 
 const class_i = 3; // index of the class in formatting
+const text_i = 4; // index of the text in formatting
 const attrs_i = 5; // index of attributes in formattings
 
 const re = /((?:\[\[(?:[^\][]|\\\])+\])?(?:[^\][]|\\\])*\]?)/;
@@ -63,15 +64,23 @@ function unique(value: string, index: number, self: Array<string>) {
 }
 
 function stringify_formatting(input: Formating) {
-    const result = input.slice();
+    const result = [...input];
+    const len = result.length;
     if (input[attrs_i]) {
         result[attrs_i] = stringify_attrs(input[attrs_i]);
     }
     if (input[class_i]) {
         result[class_i] = stringify_class(input[class_i]);
     }
+    for (let i = len; i--;) {
+        if (result[i] === undefined) {
+            result.pop();
+        } else if (typeof result[i] === 'string') {
+            break;
+        }
+    }
     result[0] = stringify_styles(input[0]);
-    return result.filter(str => str !== undefined).join(';');
+    return result.join(';');
 }
 
 // ---------------------------------------------------------------------------
