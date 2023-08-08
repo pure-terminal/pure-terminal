@@ -41,6 +41,13 @@ describe('nested_formatter', () => {
         ]);
     });
     it('should inherit attributes', () => {
+        test_specs([
+            [
+                '[[;;;;;{"id": "hello"}]foo [[;red;]bar] baz]',
+                '[[;;;;;{"id":"hello"}]foo ][[;red;;;;{"id":"hello"}]bar][[;;;;;{"id":"hello"}] baz]',
+                true
+            ]
+        ]);
     });
     it('should inherit styles', () => {
         test_specs([
@@ -54,6 +61,26 @@ describe('nested_formatter', () => {
                 '[[b;;;;;{"style":"background:red"}]foo ][[b;red;;;;{"style":"color:green;background:red"}]bar][[b;;;;;{"style":"background:red"}] baz]',
                 true
             ]
-        ])
+        ]);
+    });
+    it('should warn about invalid JSON (top level)', () => {
+        test_specs([
+            [
+                '[[b;;;;;{"style": background: red"}]foo [[;red;;;;{"style": "color: green"}]bar] baz]',
+                '[[b;;;;;{}]foo ][[b;red;;;;{"style":"color:green"}]bar][[b;;;;;{}] baz]',
+                true
+            ]
+        ]);
+        expect(warn).toBeCalled();
+    });
+    it('should warn about invalid JSON (nested)', () => {
+        test_specs([
+            [
+                '[[b;;;;;{"style": "background: red"}]foo [[;red;;;;{"style": color: green"}]bar] baz]',
+                '[[b;;;;;{"style":"background:red"}]foo ][[b;red;;;;{"style":"background:red"}]bar][[b;;;;;{"style":"background:red"}] baz]',
+                true
+            ]
+        ]);
+        expect(warn).toBeCalled();
     });
 });
