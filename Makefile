@@ -1,8 +1,8 @@
 CURL=curl
 GREP=grep
+RM=rm
 
 README_TMP=readme.html
-# change those for your project
 USER=pure-terminal
 REPO=pure-terminal
 
@@ -10,4 +10,5 @@ REPO=pure-terminal
 
 purge:
 	$(CURL) -s https://github.com/$(USER)/$(REPO)/blob/master/README.md > $(README_TMP)
-	$(GREP) -Eo '<img src="[^"]+"' $(README_TMP) | $(GREP) camo | $(GREP) -Eo 'https[^"]+' | xargs -I {} $(CURL) -w "\n" -s -X PURGE {}
+	$(GREP) -Eo '<img src=\\"[^"]+\\"' $(README_TMP) | $(GREP) camo | $(GREP) -Eo 'https[^"\\]+' | xargs -I {} $(CURL) -w "\n" -s -X PURGE {}
+	$(RM) $(README_TMP)
