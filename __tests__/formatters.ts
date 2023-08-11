@@ -31,7 +31,7 @@ describe('nested_formatter', () => {
         const input = [
             'lorem ispum',
             'dolor sit amet'
-        ]
+        ];
         input.forEach(str => {
             expect(nested_formatter(str)).toEqual(str);
         });
