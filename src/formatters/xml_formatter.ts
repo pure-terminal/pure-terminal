@@ -60,8 +60,9 @@ tags.b = tags.bold;
 tags.a = tags.link;
 tags.i = tags.italic;
 
-const tag_re = /(<\/?\s*[a-zA-Z]+(?: [^>]+)?>)/;
-const attr_re = /([a-zA-Z]+)\s*=\s*"([^"]+)"/g;
+const tag_re = /(<\/?\s*[a-zA-Z\-]+(?: [^>]+)?>)/;
+const attr_re = /([a-zA-Z\-]+)\s*=\s*"([^"]+)"/g;
+const full_tags_re = /^([a-zA-Z\-]+)(?:\s*(.+))?/;
 
 interface XMLFormatter extends FormatterFunction {
     tags: Tags;
@@ -74,7 +75,7 @@ const xml_formatter = <XMLFormatter>function(string) {
                 return ']';
             }
             string = string.replace(/^<|>$/g, '');
-            const m = string.match(/^([a-zA-Z]+)(?:\s*(.+))?/);
+            const m = string.match(full_tags_re);
             if (m) {
                 const name = m[1].toLowerCase();
                 const attrs: Attrs = {};

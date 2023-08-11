@@ -165,6 +165,21 @@ describe('xml_formatter', () => {
     });
     it('should process nested tags with attributes', () => {
     });
+    it('should process colors', () => {
+        test_specs([
+            ['<red>foo</red>', '[[;red;]foo]'],
+            ['<green>bar</green>', '[[;green;]bar]'],
+            ['<green>this <red>is</red> text</green>', '[[;green;]this [[;red;]is] text]'],
+        ]);
+    });
     it('should process new tags', () => {
+        xml_formatter.tags['bold-red'] = () => '[[b;red;]';
+        xml_formatter.tags.color = (attrs) => `[[;${attrs.value ?? ''};]`;
+        console.log(xml_formatter.tags);
+        test_specs([
+            ['<bold-red>foo</bold-red>', '[[b;red;]foo]'],
+            ['<color>bar</color>', '[[;;]bar]'],
+            ['<color value="red">bar</color>', '[[;red;]bar]']
+        ]);
     });
 });
