@@ -175,7 +175,6 @@ describe('xml_formatter', () => {
     it('should process new tags', () => {
         xml_formatter.tags['bold-red'] = () => '[[b;red;]';
         xml_formatter.tags.color = (attrs) => `[[;${attrs.value ?? ''};]`;
-        console.log(xml_formatter.tags);
         test_specs([
             ['<bold-red>foo</bold-red>', '[[b;red;]foo]'],
             ['<color>bar</color>', '[[;;]bar]'],

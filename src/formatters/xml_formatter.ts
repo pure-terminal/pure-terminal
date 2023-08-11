@@ -60,9 +60,9 @@ tags.b = tags.bold;
 tags.a = tags.link;
 tags.i = tags.italic;
 
-const tag_re = /(<\/?\s*[a-zA-Z\-]+(?: [^>]+)?>)/;
-const attr_re = /([a-zA-Z\-]+)\s*=\s*"([^"]+)"/g;
-const full_tags_re = /^([a-zA-Z\-]+)(?:\s*(.+))?/;
+const tag_re = /(<\/?\s*[a-zA-Z-]+(?: [^>]+)?>)/;
+const attr_re = /([a-zA-Z-]+)\s*=\s*"([^"]+)"/g;
+const full_tags_re = /^([a-zA-Z-]+)(?:\s*(.+))?/;
 
 interface XMLFormatter extends FormatterFunction {
     tags: Tags;
