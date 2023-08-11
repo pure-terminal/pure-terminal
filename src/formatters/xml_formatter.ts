@@ -15,7 +15,7 @@ const tags: Tags = {
             styles.push('--size:' + attrs.size);
         }
         if ('spacing' in attrs) {
-            styles.push('letter-spacing: ' + attrs.spacing);
+            styles.push('letter-spacing:' + attrs.spacing);
         }
         const background = attrs.background ?? '';
         const color = attrs.color ?? '';
@@ -24,7 +24,8 @@ const tags: Tags = {
     },
     img(attrs) {
         const alt = attrs.alt ?? '';
-        return '[[@;;;' + attrs.class + ';' + attrs.src + ']' + alt + ']';
+        const cls = attrs.class ?? '';
+        return '[[@;;;' + cls + ';' + attrs.src + ']' + alt + ']';
     },
     bold() {
         return '[[b;rgba(255,255,255,0.9);]';
@@ -45,10 +46,13 @@ const tags: Tags = {
         return '[[i;;]';
     },
     span(attrs) {
-        return '[[;;;' + attrs.class + ']';
+        const cls = attrs.class ?? '';
+        return '[[;;;' + cls + ']';
     },
     link(attrs) {
-        return '[[!;;;' + attrs.class + ';' + attrs.href + ';]';
+        const cls = attrs.class ?? '';
+        const href = attrs.href ?? '';
+        return '[[!;;;' + cls + ';' + href + ';]';
     }
 };
 // short aliases

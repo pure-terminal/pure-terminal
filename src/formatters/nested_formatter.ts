@@ -133,9 +133,6 @@ function get_inherit_style(stack: Stack) {
         }
     }
 
-    if (!stack.length) {
-        return output;
-    }
     for (let i = stack.length; i--;) {
         let formatting = parse_formatting(stack[i]);
         if (formatting.length > 5) {
