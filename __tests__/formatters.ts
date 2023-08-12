@@ -1,6 +1,6 @@
 import nested_formatter from '../src/formatters/nested_formatter';
 import xml_formatter from '../src/formatters/xml_formatter';
-import { length } from '../src/formatters/utils';
+import { length, get_next_character } from '../src/formatters/utils';
 import { type FormatterFunction } from '../src/formatters/utils';
 import { warn } from '../src/debug';
 
@@ -182,6 +182,7 @@ describe('xml_formatter', () => {
     });
 });
 
+// other tools are tested by formatters
 describe('utils', () => {
     describe('length', () => {
         it('should return 0 for empty string', () => {
@@ -199,10 +200,48 @@ describe('utils', () => {
                 ['☺️☺️☺️', 3],
                 ['💩💩💩', 3],
                 ['🎮🎮🎮', 3],
-                ['𝓗𝓗𝓗', 3]
+                ['𝓗𝓗𝓗', 3],
+                ['Amélie', 6]
             ] as const;
             specs.forEach(([str, count]) => {
                 expect(length(str)).toEqual(count);
+            });
+        });
+        it('should count html entities', () => {
+            const specs = [
+                ['&amp;&amp;', 2],
+                ['&amp;lt;', 4],
+                ['&#90;&#93;', 2]
+            ] as const;
+            specs.forEach(([str, count]) => {
+                expect({str, len: length(str, true)}).toEqual({str, len: count});
+            });
+        });
+    });
+    describe('get_next_character', () => {
+        it('should return emoji and astral symbols', () => {
+            const specs = [
+                ['8️⃣8️⃣', '8️⃣'],
+                ['☺️☺️☺️', '☺️'],
+                ['💩💩💩', '💩'],
+                ['🎮🎮🎮', '🎮'],
+                ['𝓗𝓗𝓗', '𝓗'],
+                ['élie', 'é'],
+                ['hello', 'h'],
+                ['ăFoo', 'ă']
+            ] as const;
+            specs.forEach(([input, output]) => {
+                expect(get_next_character(input)).toEqual(output);
+            });
+        });
+        it('should return html entity', () => {
+            const specs = [
+                ['&amp;foo bar', '&amp;'],
+                ['&lt;some text', '&lt;'],
+                ['&#100;lorem ipsum', '&#100;']
+            ] as const;
+            specs.forEach(([input, output]) => {
+                expect(get_next_character(input)).toEqual(output);
             });
         });
     });
