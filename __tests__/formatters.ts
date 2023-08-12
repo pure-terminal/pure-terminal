@@ -142,10 +142,12 @@ describe('xml_formatter', () => {
     });
     it('should process tags with attributes', () => {
         test_specs([
+            ['<font>foo</font>', '[[;;;;;]foo]'],
             ['<font size="10">foo</font>', '[[;;;;;{"style": "--size:10"}]foo]'],
             ['<font size="10" spacing="2">baz</font>', '[[;;;;;{"style": "--size:10;letter-spacing:2"}]baz]'],
             ['<font size="10" color="red">baz</font>', '[[;red;;;;{"style": "--size:10"}]baz]'],
             ['<font size="10" color="red" background="blue">baz</font>', '[[;red;blue;;;{"style": "--size:10"}]baz]'],
+            ['<span>quux</span>', '[[;;;]quux]'],
             ['<span class="foo">quux</span>', '[[;;;foo]quux]']
         ]);
     });
