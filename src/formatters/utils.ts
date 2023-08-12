@@ -65,7 +65,7 @@ export function split_characters(string: string) {
     return result;
 }
 
-function make_re_fn(re: RegExp) {
+export function make_re_fn(re: RegExp) {
     return function(string: string) {
         const m = string.match(re);
         if (starts_with(m)) {
@@ -127,7 +127,7 @@ export function get_next_character(string: string) {
     if (starts_with(match_entity)) {
         return match_entity[1];
     }
-    let match_combo = string.match(combine_chr_re);
+    const match_combo = string.match(combine_chr_re);
     if (starts_with(match_combo)) {
         return match_combo[1];
     }
@@ -139,7 +139,7 @@ export function get_next_character(string: string) {
     } else {
         const astral_match = string.match(astral_symbols_re);
         if (starts_with(astral_match)) {
-            match_combo = string.match(combine_chr_re);
+            const match_combo = string.match(combine_chr_re);
             if (match_combo && match_combo.index === 1) {
                 return string.slice(0, 3);
             }

@@ -1,5 +1,6 @@
 import nested_formatter from '../src/formatters/nested_formatter';
 import xml_formatter from '../src/formatters/xml_formatter';
+import { length } from '../src/formatters/utils';
 import { type FormatterFunction } from '../src/formatters/utils';
 import { warn } from '../src/debug';
 
@@ -163,8 +164,6 @@ describe('xml_formatter', () => {
             ['<img src="foo.png" class="foo-bar" alt="foo"/>', '[[@;;;foo-bar;foo.png]foo]']
         ]);
     });
-    it('should process nested tags with attributes', () => {
-    });
     it('should process colors', () => {
         test_specs([
             ['<red>foo</red>', '[[;red;]foo]'],
@@ -180,5 +179,31 @@ describe('xml_formatter', () => {
             ['<color>bar</color>', '[[;;]bar]'],
             ['<color value="red">bar</color>', '[[;red;]bar]']
         ]);
+    });
+});
+
+describe('utils', () => {
+    describe('length', () => {
+        it('should return 0 for empty string', () => {
+            expect(length('')).toEqual(0);
+        });
+        it('should count formatting as text', () => {
+            expect(length('[[;;]foo]', true)).toEqual(9);
+        });
+        it('should ignore formatting', () => {
+            expect(length('[[;;]foo]')).toEqual(3);
+        });
+        it('should count emoji', () => {
+            const specs = [
+                ['8️⃣8️⃣', 2],
+                ['☺️☺️☺️', 3],
+                ['💩💩💩', 3],
+                ['🎮🎮🎮', 3],
+                ['𝓗𝓗𝓗', 3]
+            ] as const;
+            specs.forEach(([str, count]) => {
+                expect(length(str)).toEqual(count);
+            });
+        });
     });
 });

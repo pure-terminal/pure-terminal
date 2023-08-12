@@ -70,5 +70,14 @@ describe('sanitize', () => {
                 expect(text(input)).toEqual(output);
             });
         });
+        it('should keep escape brackets', () => {
+            const specs = [
+                ['hello &amp; [[;;]this \\] is]', 'hello & this ] is'],
+                ['&#60;body&#62;[[;red;]spray \\[ ]', '<body>spray [ ']
+            ];
+            specs.forEach(([input, output]) => {
+                expect(text(input)).toEqual(output);
+            });
+        });
     });
 });
