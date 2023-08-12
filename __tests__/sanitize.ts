@@ -64,10 +64,21 @@ describe('sanitize', () => {
         it('should convert HTML entites', () => {
             const specs = [
                 ['hello &amp; [[;;]world]', 'hello & world'],
-                ['&#60;body&#62;[[;red;]spray]', '<body>spray']
+                ['&#60;body&#62;[[;red;]spray]', '<body>spray'],
+                ['&#x3c;body&#x3e;[[;red;]spray]', '<body>spray']
             ];
             specs.forEach(([input, output]) => {
                 expect(text(input)).toEqual(output);
+            });
+        });
+        it('should skip invalid entites', () => {
+            const input = [
+                '&foo;',
+                '&foo; &bar',
+                '&lorem; &ispum; &dolor; &sit; &amet;'
+            ];
+            input.forEach((str) => {
+                expect(text(str)).toEqual(str);
             });
         });
         it('should keep escape brackets', () => {

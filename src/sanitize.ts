@@ -246,7 +246,7 @@ const entities: {[key: string]: string} = {
 };
 // -------------------------------------------------------------------------
 function render_entities(str: string) {
-    return str.replace(/&#(x?)([0-9]+);/g, function(_: string, hex: string, code: string) {
+    return str.replace(/&#(x?)([0-9a-f]+);/g, function(_: string, hex: string, code: string) {
         const n = parseInt(code, hex ? 16 : 10);
         return String.fromCharCode(n);
     }).replace(/(&[^;]+;)/g, function(_, entity: string) {
