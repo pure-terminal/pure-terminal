@@ -1,6 +1,6 @@
 import nested_formatter from '../src/formatters/nested_formatter';
 import xml_formatter from '../src/formatters/xml_formatter';
-import { length, get_next_character } from '../src/formatters/utils';
+import { length, get_next_character, is_extended_command } from '../src/formatters/utils';
 import { type FormatterFunction } from '../src/formatters/utils';
 import { warn } from '../src/debug';
 
@@ -196,14 +196,15 @@ describe('utils', () => {
         it('should ignore formatting', () => {
             expect(length('[[;;]foo]')).toEqual(3);
         });
-        it('should count emoji', () => {
+        it('should count characters', () => {
             const specs = [
                 ['8️⃣8️⃣', 2],
                 ['☺️☺️☺️', 3],
                 ['💩💩💩', 3],
                 ['🎮🎮🎮', 3],
                 ['𝓗𝓗𝓗', 3],
-                ['Amélie', 6]
+                ['Amélie', 6],
+                ['\u{10169}\u{0345}\u{10169}\u{0345}', 2]
             ] as const;
             specs.forEach(([str, count]) => {
                 expect(length(str)).toEqual(count);
@@ -221,7 +222,7 @@ describe('utils', () => {
         });
     });
     describe('get_next_character', () => {
-        it('should return emoji and astral symbols', () => {
+        it('should return first character', () => {
             const specs = [
                 ['8️⃣8️⃣', '8️⃣'],
                 ['☺️☺️☺️', '☺️'],
@@ -230,7 +231,8 @@ describe('utils', () => {
                 ['𝓗𝓗𝓗', '𝓗'],
                 ['élie', 'é'],
                 ['hello', 'h'],
-                ['ăFoo', 'ă']
+                ['ăFoo', 'ă'],
+                ['\u{10169}\u{0345}\u{10169}\u{0345}', '\u{10169}\u{0345}']
             ] as const;
             specs.forEach(([input, output]) => {
                 expect(get_next_character(input)).toEqual(output);
@@ -245,6 +247,14 @@ describe('utils', () => {
             specs.forEach(([input, output]) => {
                 expect(get_next_character(input)).toEqual(output);
             });
+        });
+    });
+    describe('extended commands', () => {
+        it('should find extended command', () => {
+            expect(is_extended_command('[[;;]foo]')).toBeFalsy();
+            expect(is_extended_command('[[;;]foo')).toBeFalsy();
+            expect(is_extended_command('[[message]]')).toBeTruthy();
+            expect(is_extended_command('[[<exec>]]')).toBeTruthy();
         });
     });
 });
