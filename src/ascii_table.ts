@@ -26,10 +26,8 @@ function adjust_table(array: Table): StringTable {
             row[j] = new_lines.shift() as string;
             stacks.push(new_lines);
         }
-        const stack_lengths = stacks.map(function(column) {
-            return column.length;
-        });
-        const new_rows_count = Math.max.apply(Math, stack_lengths);
+        const stack_lengths = stacks.map(col => col.length);
+        const new_rows_count = Math.max(...stack_lengths);
         for (let k = new_rows_count - 1; k >= 0; k--) {
             array.splice(i + 1, 0, stacks.map(column => column[k] ?? ''));
         }
@@ -38,11 +36,9 @@ function adjust_table(array: Table): StringTable {
 }
 
 function calculate_lengths(array: StringTable) {
-    return array[0].map(function(_, i) {
-        var col = array.map(function(row) {
-            return strlen(row[i]);
-        });
-        return Math.max.apply(Math, col);
+    return array[0].map((_, i) => {
+        const col: number[] = array.map(row => strlen(row[i]));
+        return Math.max(...col);
     });
 }
 
@@ -74,7 +70,7 @@ export function ascii_table(array: Table, header: boolean = false) {
         const line = column_padding(lengths, row).join(' | ');
         return '| ' + escape(line) + ' |';
     });
-    var sep = '+' + lengths.map(len => '-'.repeat(len + 2)).join('+') + '+';
+    const sep = '+' + lengths.map(len => '-'.repeat(len + 2)).join('+') + '+';
     if (header) {
         return sep + '\n' + lines[0] + '\n' + sep + '\n' +
             lines.slice(1).join('\n') + '\n' + sep;
