@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ascii_table should format basic table 1`] = `
+"+------------+----------------+------+-----------+
+| hello      | World          | This | Is Sparta |
+| helloworld | this is sparta | this | world     |
++------------+----------------+------+-----------+"
+`;
+
+exports[`ascii_table should format mixed content 1`] = `
+"+----------------+----------------+------+----------------+
+| hello          | This           | Is   | プログラミング |
+| lorem ipsum    | dolor          | sit  | hello          |
+|                |                |      |                |
+|                |                | amet |                |
+| hello    world | this is sparta | this | world          |
++----------------+----------------+------+----------------+"
+`;
+
+exports[`ascii_table should render different data types 1`] = `
+"+-------------+-----------+-----------+
+| 10000000000 | 200000000 | hello     |
+| true        | false     | /foo bar/ |
+| this        | is        | it        |
++-------------+-----------+-----------+"
+`;
+
+exports[`ascii_table should render empty cells 1`] = `
+"+----------------+----------------+------+----------------+
+| hello          | This           | Is   | プログラミング |
++----------------+----------------+------+----------------+
+| lorem ipsum    |                | sit  | hello          |
+|                |                |      |                |
+|                |                | amet |                |
+| hello    world | this is sparta |      |                |
++----------------+----------------+------+----------------+"
+`;
+
+exports[`ascii_table should render header 1`] = `
+"+----------------+----------------+------+----------------+
+| hello          | This           | Is   | プログラミング |
++----------------+----------------+------+----------------+
+| lorem ipsum    | dolor          | sit  | hello          |
+|                |                |      |                |
+|                |                | amet |                |
+| hello    world | this is sparta | this | world          |
++----------------+----------------+------+----------------+"
+`;
