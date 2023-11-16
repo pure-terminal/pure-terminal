@@ -2,10 +2,6 @@ export function is_string(arg: unknown): arg is string {
     return typeof arg === 'string';
 }
 
-export function is_function(arg: unknown): arg is () => unknown {
-    return typeof arg === 'function';
-}
-
 export function is_array(arg: unknown): arg is Array<unknown> {
     return Array.isArray(arg);
 }
@@ -27,5 +23,4 @@ export function is_hash_command(arg: unknown): arg is Hash_Command {
         return false;
     }
     return is_string(arg[2]);
-
 }

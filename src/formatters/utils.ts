@@ -172,23 +172,6 @@ export function escape_brackets(string: string) {
         .replace(/\\/g, '&#92;');
 }
 
-const local_format_parts_re = new RegExp(format_parts_re.source, 'i'); // without g flag
-
-export function count_selfclosing_formatting(string: string) {
-    let count = 0;
-    if (have_formatting(string)) {
-        format_split(string).forEach(function(str) {
-            if (is_formatting(str)) {
-                const m = str.match(local_format_parts_re);
-                if (m && m[1].match(/@/) && m[6] === '') {
-                    count++;
-                }
-            }
-        });
-    }
-    return count;
-}
-
 export type FormatterFunctionOptions = {
     echo?: boolean;
     animation?: boolean;
@@ -215,7 +198,3 @@ type FormatterArrayOptions = {
 };
 
 export type Formatter = [RegExp, FormaterRegExpReplacement] | [RegExp, FormaterRegExpReplacement, FormatterArrayOptions] | FormatterFunction;
-
-export function is_formatter_function(formatter: Formatter): formatter is FormatterFunction {
-    return typeof formatter === 'function';
-}

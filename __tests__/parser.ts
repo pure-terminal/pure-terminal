@@ -1,5 +1,6 @@
 import { split_arguments, parse_arguments } from '../src/parser/arguments';
 import { parse_command, split_command } from '../src/parser/command';
+import { parse_hash } from '../src/parser/hash';
 
 describe('parsers', () => {
     const args = '"foo bar" baz /^asd [x]/ true false `foo bar` str\\ str 10 1e10 "" foo"bar" \'foo\'';
@@ -96,6 +97,36 @@ describe('parsers', () => {
                 args: [],
                 args_quotes: [],
                 rest: ''
+            });
+        });
+    });
+    describe('hash', () => {
+        it('should parse single command', () => {
+            expect(parse_hash('[[0, 1, "ls"]]')).toEqual([[0, 1, "ls"]]);
+        });
+        it('should array of commands', () => {
+            expect(parse_hash('[[0,1,"ls"],[0,2,"cat"],[0,3,"ls"]]')).toEqual([
+                [0, 1, "ls"],
+                [0, 2, "cat"],
+                [0, 3, "ls"]
+            ]);
+        });
+        it('should throw when calling with invalid JSON', () => {
+            expect(() => parse_hash('["foo')).toThrow();
+        });
+        it('should throw an error when not an array', () => {
+            expect(() => parse_hash('"foo"')).toThrow();
+        });
+        it('should throw an error when have invalid command', () => {
+            const spec = [
+                '[[0,1,"ls"],[0,2,2],[0,3,"ls"]]',
+                '[[0,1,"ls"],[0,2],[0,3,"ls"]]',
+                '[[0,1,"ls"],[0,2,"cat"],[0,3,"ls", "ls"]]',
+                '[["x",1,"ls"],[0,2,"cat"],[0,3,"ls", "ls"]]',
+                '["x",[0,2,"cat"],[0,3,"ls", "ls"]]'
+            ];
+            spec.forEach(input => {
+                expect(() => parse_hash(input)).toThrow();
             });
         });
     });
