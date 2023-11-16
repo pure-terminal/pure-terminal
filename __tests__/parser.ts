@@ -102,13 +102,13 @@ describe('parsers', () => {
     });
     describe('hash', () => {
         it('should parse single command', () => {
-            expect(parse_hash('[[0, 1, "ls"]]')).toEqual([[0, 1, "ls"]]);
+            expect(parse_hash('[[0, 1, "ls"]]')).toEqual([[0, 1, 'ls']]);
         });
         it('should array of commands', () => {
             expect(parse_hash('[[0,1,"ls"],[0,2,"cat"],[0,3,"ls"]]')).toEqual([
-                [0, 1, "ls"],
-                [0, 2, "cat"],
-                [0, 3, "ls"]
+                [0, 1, 'ls'],
+                [0, 2, 'cat'],
+                [0, 3, 'ls']
             ]);
         });
         it('should throw when calling with invalid JSON', () => {
